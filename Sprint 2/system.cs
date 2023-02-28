@@ -31,6 +31,9 @@ public class system : MonoBehaviour
     public GameObject Cover_Player1;
     public GameObject Cover_Player2;
 
+    [Header("Data")]
+    public int[] Data;
+
     enum Round
     {
         Player_1,
@@ -48,6 +51,7 @@ public class system : MonoBehaviour
             if (space.Total < 4)
             {
                 Destroy(Cur_Skill);
+                
                 switch (round)
                 {
                     case Round.Player_1:
@@ -56,8 +60,9 @@ public class system : MonoBehaviour
                         Cover_Player1.SetActive(true);
                         Cover_Player2.SetActive(false);
                         space.Player1 += 1;
-                        round = Round.Player_2;
+                        Data[space.Position + space.Total ] = 1;
                         cur_Color = Player1Color;
+                        round = Round.Player_2;
                         break;
                     case Round.Player_2:
                         RoundText.text = "Player 2";
@@ -66,13 +71,13 @@ public class system : MonoBehaviour
                         Cover_Player2.SetActive(true);
                         space.Player2 += 1;
                         cur_Color = Player2Color;
+                        Data[space.Position + space.Total ] = 2;
                         round = Round.Player_1;
                         break;
                 }
-                space.Total += 1;
                 TotalRounds -= 1;
-
-                remainingroundsText.text = "余 " + TotalRounds;
+                space.Total += 1;
+                remainingroundsText.text = "余 " + TotalRounds + " 回合";
                 Cur = Chases[space.Total - 1];
 
                 GameObject Clone = Instantiate(Cur, gameObject.transform);
@@ -87,15 +92,24 @@ public class system : MonoBehaviour
 
     public void Random_Skill(GameObject gameObject)
     {
-        int Random_num = Random.RandomRange(0, 2);
+        int Random_num = Random.RandomRange(0, SkillHub.Count - 1);
         Cur_Skill = Instantiate(SkillHub[Random_num],gameObject.transform);
     }
 
     private void Awake()
     {
         TotalRounds = 16;
-        remainingroundsText.text = "余 " + TotalRounds;
+        remainingroundsText.text = "余 " + TotalRounds + " 回合";
         Random_Skill(Player1_skill_spawn); 
+    }
+
+    public void Decision()
+    {
+        int[] ChaseBroad = new int[9];
+        for(int i = 0; i == 8; i++)
+        {
+
+        }
     }
 
     // Start is called before the first frame update

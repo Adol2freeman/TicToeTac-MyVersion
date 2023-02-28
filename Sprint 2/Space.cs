@@ -7,4 +7,5 @@ public class Space : MonoBehaviour
     public int Total;
     public int Player1;
     public int Player2;
+    public int Position;
 }
